@@ -2,6 +2,7 @@ console.log("loading..");
 const http = require("http");
 const fs = require("fs");
 
+
 const products = [
   {
     name: "jo",
@@ -41,18 +42,56 @@ const productJson=JSON.stringify(product)
 const server = http.createServer((req, res) => {
   switch (req.url) {
     case "/":
-      fs.readFile("public/index.html", "utf8", (err, data) => {
+      fs.readFile("public/HTML/index.html", "utf8", (err, data) => {
+       
         if (err) {
           res.writeHead(404);
           res.write("wrong");
         } else {
           res.write(data);
         }
+        
         res.end();
       });
       break;
     case "/about":
-      fs.readFile("public/about.html", "utf8", (err, data) => {
+      fs.readFile("public/HTML/about.html", "utf8", (err, data) => {
+        if (err) {
+          res.writeHead(404);
+          res.write("wrong");
+        } else {
+          res.writeHead(200,{"content-type":"text/html"});
+          res.write(data);
+        }
+        res.end();
+      });
+      break;
+      case "/CSS/style.css":
+        fs.readFile('./public/CSS/style.css', "utf8", (err, data) => {
+          if (err) {
+            res.writeHead(404);
+            res.write("wrong");
+          } else {
+            res.writeHead(200,{"content-type":"text/css"});
+            res.write(data);
+          }
+          res.end();
+        });
+        break;
+        case "/JS/main.js":
+        fs.readFile('./public/JS/main.js', "utf8", (err, data) => {
+          if (err) {
+            res.writeHead(404);
+            res.write("wrong");
+          } else {
+            res.writeHead(200,{"content-type":"text/javascript"});
+            res.write(data);
+          }
+          res.end();
+        });
+        break;
+            case "/sales":
+      fs.readFile("public/HTML/sales.html", "utf8", (err, data) => {
         if (err) {
           res.writeHead(404);
           res.write("wrong");
@@ -63,7 +102,7 @@ const server = http.createServer((req, res) => {
       });
       break;
     case "/sales":
-      fs.readFile("public/sales.html", "utf8", (err, data) => {
+      fs.readFile("public/HTML/sales.html", "utf8", (err, data) => {
         if (err) {
           res.writeHead(404);
           res.write("wrong");
@@ -73,6 +112,7 @@ const server = http.createServer((req, res) => {
         res.end();
       });
       break;
+    
     case "/products":
       res.write(productsJson);
       res.end();
